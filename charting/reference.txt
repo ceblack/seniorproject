@@ -1,0 +1,143 @@
+#############################################
+TRADE DEFENDER XIGNITE PYTHON QUICK REFERENCE
+#############################################
+#############################################
+
+Table of Contents:
+    I. paramList.py
+    II. individualParamChart.py
+    III. lineChart.py
+    IV. profitabilityChart.py
+
+General Notes:
+    - All python code in this directory is Python 3 compatible
+
+#############################################
+#############################################
+I. paramList.py
+
+Arguments:
+    None
+
+Request Example:
+    python3 paramList.py
+
+Response Example:
+{
+	"timestamp": "2016-03-10 19:47:37.217590",
+	"status": "success",
+	"error": "",
+	"timezone": "CDT",
+	"utc_offset": "-6.0",
+	"payload": {
+		"Last Size": "LastSize",
+		"Bid": "Bid",
+		"IV Change (%)": "IVPercentChange",
+		"Yesterday Midpoint Price": "PreviousDayMid",
+		"Yesterday Theta": "PreviousTheta",
+		"Open Interest": "OpenInterest",
+		"Underlying Spot": "UnderlyingSpot,
+		"Ask Size": "AskSize",
+		"Yesterday Bid": "PreviousDayBid",
+		"Yesterday Close": "PreviousClose",
+		"Yesterday Last Size": "PreviousDayLastSize",
+		"IV": "DecimalIV",
+		"Change": "Change",
+		"Ask": "Ask",
+		"Yesterday Ask": "PreviousDayAsk",
+		"Percent Change": "PercentChange",
+		"Theta": "Theta",
+		"Low": "Low",
+		"Open": "Open",
+		"Black Scholes Val Change ($)": "ValuationChange",
+		"Intrinsic Value": "IntrinsicValue",
+		"Previous Vega": "PreviousVega",
+		"Gamma": "Gamma",
+		"Previous Delta": "PreviousDelta",
+		"Close": "Close",
+		"Yesterday Gamme": "PreviousGamma",
+		"Price Change ($)": "OptionPriceChange",
+		"Extrinsic Value": "ExtrinsicValue",
+		"IV Change": "DecimalIVChange",
+		"Last": "Last",
+		"High": "High",
+		"Yesterday Last": "PreviousDayLast",
+		"Yesterday Rho": "PreviousRho",
+		"Underlying Price Change": "UnderlyingPriceChange",
+		"Rho": "Rho",
+		"Vega": "Vega",
+		"Delta": "Delta",
+		"Yesterday IV": "DecimalPreviousIV",
+		"Black Scholes Valuation": "Valuation",
+		"Yesterday Black Scholes Valuation": "PreviousDayValuation",
+		"Volume": "Volume",
+		"Midpoint Price": "Mid",
+		"Range": "Range",
+		"Bid Size": "BidSize"
+	}
+}
+
+#############################################
+############################################
+II. individualParamChart.py
+
+Arguments:
+    I. Ticker (String) (Required)
+    II. CallFlag (0 or 1) (Required)
+    III. Parameter (String) (Required)
+
+Request Example:
+    python3 individualParamChart.py AAPL 1 Bid
+
+Response Example:
+<iframe
+    id="igraph"
+    scrolling="no"
+    style="border:none;"seamless="seamless"
+    src="https://plot.ly/~cjfilabs/661.embed"
+    height="525"
+    width="100%">
+</iframe>
+
+#############################################
+############################################
+III. lineChart.py
+
+Arguments:
+    I. Profit Exit (Numeric) (Required)
+    II. Loss Exit (Numeric) (Required)
+    III. Current Price (Numeric) (Required)
+    IV. Fill Price  (Numeric) (Required)
+
+Request Example:
+    python3 individualParamChart.py 1.23 4.56 2.34 3.45
+
+Response Example:
+<iframe
+    id="igraph"
+    scrolling="no"
+    style="border:none;"seamless="seamless"
+    src="https://plot.ly/~cjfilabs/661.embed"
+    height="525"
+    width="100%">
+</iframe>
+
+#############################################
+############################################
+IV. profitabilityChart.py
+
+Arguments:
+    1: Positions (JSON String) (Required) ( { [OCC or Ticker Symbol] : Quantity, [OCC or Ticker Symbol] : Quantity } )
+
+Request Example:
+    python3 profitabilityChart.py '{"AAPL160429C00110000":-10,"AAPL160429C00115000":10}'
+
+Response Example:
+<iframe
+    id="igraph"
+    scrolling="no"
+    style="border:none;"seamless="seamless"
+    src="https://plot.ly/~cjfilabs/661.embed"
+    height="525"
+    width="100%">
+</iframe>

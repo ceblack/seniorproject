@@ -1,0 +1,31 @@
+table {
+    margin: 0 auto; /* or margin: 0 auto 0 auto */
+  }
+
+  #overallDiv {
+      display: table;
+      width: 100%;
+  }
+  #mainBody {
+      display: table-cell;
+  }
+
+  #mainBody > table {
+      width: 100%;
+  }
+
+p {
+    font-size: 22px;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}

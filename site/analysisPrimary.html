@@ -1,0 +1,541 @@
+<!DOCTYPE html><html lang="en"><head><title>Senior Research Project</title><link rel="stylesheet" href="css/styles.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"><script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script></head>
+
+<body>
+    <h2><strong>A Simulated Approach to <br/> Linear Quadratic Estimation  of Single Sector Equity Pairs <br/> in Comparison  with Common Regression Techniques</strong></h2>
+    <h3>CJ Black</h3>
+    <div class="container">
+    <div class="row">
+        <br/><br/>
+        <p>
+            <strong>Relative Pricing</strong><br/>
+                In trading, most traders and investors consider there to be two prices for any given asset. These are the traded price (market price) and the intrinsic price. In efficient markets, the traded price of an asset is the intrinsic price. All of the information that is relevant to the asset is known, and everyone who trades the asset understands and agrees about how this information should affect the price. In inefficient markets, the traded price has little to do with the actual value of the asset, and is based on poor information, no information, rumors, etc.<br/><br/>
+                In reality, markets exist on a spectrum and are not strictly efficient or strictly inefficient. Thus, traded prices tend to track the intrinsic prices of most assets, but not exactly. The degree to which these prices diverge from one another differs between markets and assets, and varies over time. In a very general sense, firms which profit from trading tend to be better at identifying these inefficiencies than other market participants, and as a result can buy assets when traded prices are below intrinsic prices, and sell assets when the opposite case occurs.<br/><br/>
+                Traders make money by using the information at their disposal to more accurately understand the intrinsic price of an asset than other market participants. If the intrinsic value of an asset changes dramatically, and a knowledgeable trader understands this better faster or more accurately than most others, he or she may profit from this divergence between the two prices. By participating in the market in this way, the actions of the knowledgeable trader will cause the trade price of the asset to move nearer its intrinsic price, thus “pricing in” his or her new insights.<br/><br/>
+                The process by which asset prices change as traders contribute information is known as price discovery. The more efficient a market is, the faster new information can alter prices. Efficient markets also minimize price swings that are the result of information underreaction or overreaction, whereas inefficient markets tend to oscillate wildly.
+                The replacement of fractional pricing with decimal pricing has increased the granularity by which traders can impart information on prices. This change coupled with the reduced role of designated market makers in favor of multiple competing liquidity providers has also shrunk bid/ask spreads significantly. This spread reduction lowers the cost of entering and exiting positions, thus incentivizing traders to take advantage of smaller discrepancies between market and intrinsic prices, which in theory should increase market efficiency.<br/><br/>
+                The intrinsic price of an asset is not agreed upon, either in value or calculation, by anybody. Each market participant has an estimate of what the asset they are trading is really worth, thus their own estimate of how near or far the market price is from the asset’s intrinsic price is unique as well.
+                The quantitative methods which traders develop to estimate the intrinsic price of an asset are extremely varied, and can range from simple rules based on averages and probability distributions, to techniques based on machine learning which are similar to those which pilot autonomous vehicles. When these traders enter and exit trades based on their analyses, they are participating in what is known as statistical arbitrage.<br/><br/>
+                Generally, arbitrage is the act of buying one asset, and selling the same asset simultaneously to profit from a difference in price. For example, if widgets are $1 in New York City, and $0.99 in Chicago, a trader could buy Chicago widgets and sell New York City widgets for a riskless $0.01 profit. Statistical arbitrage is a twist on this methodology, wherein a trader buys or sells an asset based on the assumption that statistical insight will allow him or her to buy an asset for less, or sell an asset for more, than its intrinsic price.<br/><br/>
+                The trouble with statistical arbitrage is that it is very hard. It is difficult to model all of the dynamics affecting an asset, especially when the asset is a company. Industry dynamics, macroeconomics, executive behavior, consumer trends, competition and a myriad of things all are extremely relevant to the value of a company. Quantifying and modelling these factors is difficult, complex, and prone to error.<br/><br/>
+                To add on to the difficulties of statistically modelling the value of individual companies, models cannot predict sudden shocks that may occur that affect the market. A mild example of this is announcements from the Federal Reserve. If the Federal Reserve decides to raise or lower rates in a way that is unexpected, the market will react strongly one way or the other. A more extreme example is terrorist attacks, or acts of war. When markets reopened after 9/11, markets plunged. Predicting unexpected Federal Reserve announcements, and terrorist attack, and acts of war is nearly impossible, thus trading models generally do not try. This risk of sudden market shocks is known as directional risk.<br/><br/>
+                Understanding that it is difficult to model individual companies, and that even if a trader is able to do so, he or she is still exposed to great directional risk, most traders have largely decided not to practice statistical arbitrage directionally. Instead, many have turned to pairs trading. Pairs trading is the act of buying one asset, and simultaneously selling another similar asset to profit when the two assets change relative to one another. When a trader buys asset A, and sells asset B, he or she is effectively trading the difference between the two, thus eliminating the market component. For example, if a trader were to buy Tesla and sell GM, he or she would be largely protected from violent market swings, as Tesla and GM would largely be affected by the market in the same way. In this way, the trader is able to make a bet on the relative performance of the two companies while minimizing his or her exposure to unpredictable market events.<br/><br/>
+                Pricing one asset based on the value of a similar asset is known as relative pricing. Trading strategies based on relative pricing not only aid to maintain rational pricing between assets, but are easier to craft than strategies which seek to model the dynamics of an entire asset. It is easier to approximate and predict the relationship between West Texas Intermediate (WTI) crude oil and Brent crude oil, than it is to model either singularly. The same can be said for Goldman Sachs and J.P. Morgan, or Caterpillar and John Deere. Thus, traders attempt to trade these assets against each other rather than individually.<br/><br/>
+                <br/>
+
+            <strong>Measuring Relativity</strong><br/>
+                Models for pairs trading generally attempt to develop an equation for one pair component to define the other. For example, J.P. Morgan = Goldman Sachs *  X + Y, where X and Y are guesses at the values which most nearly describe reality. By establishing a baseline equation which approximates the pair relationship, traders can attempt to identify when the market misprices the pair relative to one another.<br/><br/>
+                If the equation J.P. Morgan = Goldman Sachs *  X + Y establishes the baseline pair relationship, but the market values of J.P. Morgan and Goldman Sachs are such that the equation solves to 1.2 * J.P. Morgan = Goldman Sachs * X + Y, then according to the model the Goldman Sachs price is high relative to that of J.P. Morgan. Using this, a trader can sell shares of Goldman Sachs and buy those of J.P. Morgan, with the hope that the prices will fall back in line with the original equation.<br/><br/>
+                So how do traders model these pairs to develop the best baseline equations for pair relationships? This paper compares two common modeling methods with a method that has been popularly applied to signal processing and rocket science, but not yet trading. The common methodologies are Ordinary Least Squares (OLS) regression, and Orthogonal Distance Regression (ODR). The method for comparison is Linear Quadratic Estimation (LQE), which is also known as Kalman filtering.<br/><br/>
+                <br/>
+
+            <strong>Linear Quadratic Estimation</strong><br/>
+                Linear Quadratic Estimation or the Kalman Filter, is an algorithm developed by the Hungarian mathematician Rudolf Emil Kalman for the purposes of filtering statistical noise from signals. By a simple example, if one were listening to a radio station and the radio was producing a lot of static, a signal filtering algorithm such as the Kalman filter would amplify the music and diminish the static.<br/><br/>
+                By a more detailed example, imagine a satellite orbiting the Earth with sensors to determine its distance from the Earth’s surface, as well as the latitude and the longitude of the point on the Earth directly below it. These coordinates will be X, Y, and Z. While these sensors are very well engineered and calibrated, nothing is perfect, and there is some error in each of them. Thankfully, we know to a reasonable degree the variance of these errors. In addition to the coordinates of the satellite, and the characteristics of the errors that are assumed when determining the coordinates, we also know what (if any) control inputs the satellite is making to its course, and the ways we believe it changes in each discrete timestep (e.g. seconds).<br/><br/>
+                Based on this knowledge of the satellite coordinates, coordinate error, the way the satellite will likely change in each timestep, and what inputs the satellite is making to change its position, we can come up with a reasonable prediction of where the satellite will be a second from now. Once a second passes, we can compare what we predicted with what we are measuring now to understand how accurate our predictions are. We use this information about our prediction error to update our model, and make a prediction again. This process of repeated measurement, update, and prediction repeats itself over and over, and creates what is known as an online estimator.<br/><br/>
+                An online estimator is one that continually provides a new prediction as you supply it with new information. For each timestep of the Kalman filter, we supply the model the latest measurement, and receive a new prediction for the next measurement. With models such as linear or multivariate regression, a “moving window” tends to be used. This means that the model will continually run on the past X number of timesteps at each new timestep. There are two major downsides to this. The first is that the measurement at each new timestep has the same relevancy to the model as all X-1 measurements behind it. So if X is 50, a measurement 49 timesteps ago matters just as much as the very latest measurement. This causes models which rely on moving windows to fail to react swiftly to new data, and have a tendency to lag that which they measure. The second drawback is that for each timestep, the regression must be run entirely over again. So if X is 50, then in 50 timesteps X variables will be regressed 50 times. This is very computationally expensive, and can cause models to be slow as a result.<br/><br/>
+                In addition to being less computationally intensive than regression models, as well as more so able to react to new information due to its true “online” nature, Kalman filters have the unique ability to forecast distribution of future values in the next timestep. Understanding this distribution is very useful to trading strategies, as it allows for the detailed calculation of the estimated value of long or short positioning in the next timestep. This estimated value calculation can be used by trading strategies to influence the formation of buy or sell signals in such a way that the strategy may maximize risk-adjusted return (conditional on the accuracy of the estimated value calculation).<br/><br/>
+                <br/>
+
+            <strong>Existing Work on Trading with LQE</strong><br/>
+                It is well known that relationship between two assets is best understood via dynamic rather than static estimation (Hatemi & Roca, 2006). Researchers have also demonstrated that hedge ratios tend to be mean reverting (Schwartz, 1997). To accomplish dynamic rather than static estimation of hedge ratios, researchers have primarily used moving-window OLS and ODR. Though moving-window regression methods achieve dynamic modeling, they are inefficient from a computational perspective, and measure the oldest occurring data with the same weight as information which is newer. As a result, truly online methods of approximation such as LQE have become popular over the past decade.<br/><br/>
+                This paper improves upon the existing body of work in multiple ways. First, a large amount of work on pairs trading using LQE analyzes the efficacy of the prediction method on its own, without much context as to how other similar methods (ODR, OLS), compare. By comparing these three methods in identical environments with uniform trading rules, a greater contextual understanding of the accuracy of LQE is achieved.<br/><br/>
+                Second, a fair amount of the application of LQE has been on pairs of assets that are somewhat dissimilar. For example, one paper paired assets by similar liquidity in a market index (Kim, 2011). Others have performed strategy analysis and optimization over a single pair of securities (Chen, Ren, & Lu, 2012). By creating pairs based on industry or sector, as well as expanding analysis over a much larger body of assets, a much more robust analysis of these strategies can be done across pairs which are known to be fundamentally similar. Due to innovations in cloud computing technology as well as expanded free access to large amount of historical financial data, this is easier today than it has ever been in the past.<br/><br/>
+                In short, this paper utilizes new application of LQE as it relates to pairs trading, while comparing LQE to potentially similar prediction methods, and does so across pairs which are known to be fundamentally similar, on a larger scale.<br/><br/>
+                <br/>
+
+            <strong>Hypothesis</strong><br/>
+                Linear Quadratic Estimation (LQE) or Kalman Filtering is a more effective online estimator of the relative price innovations of pairs of equities in single sectors than Ordinary Least Squares (OLS) or Orthogonal Distance Regression (ODR) regression as measured by risk-adjusted returns.<br/><br/>
+                <br/>
+
+            <strong>Methodology</strong><br/>
+                The most intuitive way to compare the efficacy of prediction methods as they relate to any form of trading is to measure and compare the profits and losses which come as a result of trading based on their predictions across the same timeframes, data sets, and trading rules.<br/><br/>
+                In order to do this, we have developed software which allows for the evaluation of the profitability of given trading strategies across various timeframes and assets. On top of the backtesting software, a basic pairs trading strategy was developed with a singular prediction method at its core. The core prediction method of the strategy could be swapped in and out so that various prediction methods could be tested across exactly similar situations. Additionally, analysis software was built to be able to visualize and understand the various ways that the variable prediction methods differed from one another.<br/><br/>
+                To ensure that the pairs being tested were fundamentally similar to one another, an API from a reputable data vendor was utilized to look up the sectors of each individual equity, so to only propose pairs from matching sectors. The costs of this data were furnished by Financial Intelligence Labs, Inc.<br/><br/>
+                <br/>
+
+            <strong>Model Overview</strong><br/>
+                The model which each of the prediction methods seeks to approximate is Y = mX + b, where Y and X are the two components of an equity pair. In the case of the OLS and ODR 	methods, the equation is approximated over a window of fixed size. Since LQE is an online estimator, window sizes are a non-issue.<br/><br/>
+                Prior to the first day of trading, the OLS and ODR methods are provided with data from a window of the preceding days. Similarly, the LQE model is trained on the number of days available in a window prior to the first day of trading, so that its state estimate need not adjust itself from some default value.<br/><br/>
+                The trading strategy itself is simple. After approximating a well-fitting equation with coefficient A and intercept B, the strategy defines a spread which is equal to Y - A*X. The prediction method is then again called to fit an equation for the trend of the spread. The spread is then differenced from the line of best fit defined by the new equation, and a sequence with a fixed mean is the result. This is the detrended spread.<br/><br/>
+                The standard deviation of the detrended spread is then measured with a number of values equal to that of the regression window. With this standard deviation, and knowing the mean of the detrended spread, we can develop a Z-Score, which is the number of standard deviations that the detrended spread is currently away from its mean. If the Z-Score is high, then the spread is abnormally &#34;rich&#34; and a trader can sell the components in the proportion they are represented in Y - A*X with the hope that they will renormalize. In the opposite case, the spread is abnormally cheap, and a trader can buy the spread components in their respective proportions with this same renormalization expectation. For the purposes of this paper, this abnormal Z-Score has been defined as +/- 2.5.<br/><br/>
+                In order to protect against losses as a result of a fundamental change in the relationship between the two assets, we have also defined an upper Z-Score bound of +/- 3.5, whereat the strategy must dump any positions that it has accrued. Additionally, a trailing stop loss order of 97% has been placed on the entire portfolio whenever a position is carried. To define the point at which we consider the spread to be &#34;normal&#34; again, we have arbitrarily chosen a Z-Score of +/- 1.5.<br/><br/>
+                In summary, the strategy develops the detrended spread using the prediction method, finds the Z-Score, and enters a position if the absolute value of the Z-Score is between 2.5 and 3.5. If there exists a portfolio position already, then the strategy exits any positions if the Z-Score is below 1.5, exceeds 3.5, or if the value of the portfolio since original position accrual decreases below 97%.<br/><br/>
+                Given the assumption that hedge ratios are mean reverting, this simple strategy should theoretically reward the prediction method with the greatest ability to measure the relationship between two assets with the greatest profitability.<br/><br/>
+                One recurring issue with pairs trading simulation is the concept of net exposure. Imagine stock A with the price of  $90 and stock B with the price of $100. If a model estimates the pair’s equation to be something similar to A = B*0.89 + 0, then the total cost of purchasing one unit of the A -  B*0.89 spread is $1. This means that a $1mm portfolio could theoretically accrue 1mm units of the spread if it were to deploy the entirety of its capital. The entire basis of pairs trading though is that the components of an equity pair are not a perfect hedge for one another, and that the relationship between them is not exact and/or easy to measure. This means that as the spread cheapens, a portfolio which measures available liquidity as cash less net exposure would be able to achieve astronomical and unrealistic levels of leverage, which would result in fantastic profits and/or losses. In order to avoid this, the portfolio utilized for testing measures available liquidity as cash less total exposure, meaning that short proceeds are not reinvested, and leverage is not dependent upon the net cost of the approximated spread.<br/><br/>
+                The components of the New York Stock Exchange made up the pool of equities available for pair selection. Through the utilization of a third-party API, these components were separated by their respective sectors. Once sorted, every possible pair combination was considered. In order to select out the pairs which were most dissimilar, OLS regression was done across on the close prices of pair components for one regression window preceding the defined simulation start date, and an r-squared threshold was imposed so that only the equities with the strongest linear relationships were tested.<br/><br/>
+                A leading theory in pairs trading is that pairs are composed of leaders and laggers, meaning that in a given pair, one pair component influences the price movement of the other, but that the relationship is not mutual. For example, the price of John Deere may be influenced by Caterpillar, but Caterpillar may not be influenced very greatly or at all by John Deere. In order to avoid this, each pair was tested in both configurations, where each component had both the opportunity to be the dependent and independent variable. In the analysis, the &#34;leader&#34; of each pair where the independent/dependent variable configuration which was most profitable is tagged so that leader and lagger dynamics may also be considered.<br/><br/>
+                The primary method by which we measure the efficacy of each prediction method is risk-adjusted return. We have utilized the Sortino and Sharpe methods of risk-adjusted return for this purpose. In addition, we also measured maximum drawdown, standard deviation, annualized total return, annualized total return based on days when trading occurs. In addition to measuring these metrics for the entire population, we also isolated the leaders and laggers so to understand how the prediction methods may fare given that a leader-lagger dynamic exists.<br/><br/>
+                <br/>
+
+            <strong>Results</strong><br/>
+                For this paper, we tested this strategy across every New York Stock Exchange equity in the financial services sector, wherein the r-squared of a single regression window prior to the first day of trading exceeded 0.50. We also varied the regression window to examine window lengths of 100 and 150 days. Testing was conducted on the dates between April 30, 2011 and April 30, 2016. The timeframe and number of sectors were primarily constrained by the speed at which data could be transmitted from the data vendor. In the future, a more premium historical pricing API would allow for more robust testing.<br/><br/>
+                As mentioned above, the strategy trades absolute Z-Scores between 2.5 and 3.5, and exits positions below 1.5 or above 3.5, or when the value of the portfolio drops to 97% or less of its value at trade inception.<br/><br/>
+                <br/>
+
+        </p>
+        <br/><br/>
+    </div>
+    <h2><strong>150 Day Regression Window</strong></h2>
+    <br/><br/><br/>
+    <div class="row">
+        <div id="overallDiv">
+            <div id="mainBody">
+                <table cellpadding="3"><tr><th>High Enter Sigma</th><th>High Exit Sigma</th><th>Low Enter Sigma</th><th>Low Exit Sigma</th><th>Stop Loss %</th><th>Look Back (Days)</th><th>R-Squared Threshold</th></tr><tr><td>3.500</td> <td>3.500</td> <td>2.500</td> <td>1.500</td> <td>0.970</td> <td>150.000</td> <td>0.500</td></tr></table><br/><br/></div></div></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3115.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.117</td> <td>0.266</td> <td>0.569</td> <td>0.537</td> <td>-0.032</td></tr><tr><td>ODR</td> <td>0.152</td> <td>0.661</td> <td>2.711</td> <td>2.276</td> <td>-0.435</td></tr><tr><td>Kalman</td> <td>0.087</td> <td>0.453</td> <td>1.442</td> <td>1.150</td> <td>-0.293</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3117.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-0.008</td> <td>0.000</td> <td>0.201</td> <td>0.034</td> <td>-0.167</td></tr><tr><td>ODR</td> <td>-0.060</td> <td>-0.080</td> <td>1.262</td> <td>0.683</td> <td>-0.579</td></tr><tr><td>Kalman</td> <td>-0.045</td> <td>-0.063</td> <td>0.806</td> <td>0.306</td> <td>-0.500</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3119.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.017</td> <td>0.268</td> <td>0.704</td> <td>0.537</td> <td>-0.167</td></tr><tr><td>ODR</td> <td>0.046</td> <td>0.562</td> <td>2.855</td> <td>2.276</td> <td>-0.579</td></tr><tr><td>Kalman</td> <td>0.021</td> <td>0.453</td> <td>1.649</td> <td>1.150</td> <td>-0.500</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3121.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.077</td> <td>0.079</td> <td>0.249</td> <td>0.249</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.161</td> <td>0.218</td> <td>0.462</td> <td>0.484</td> <td>0.022</td></tr><tr><td>Kalman</td> <td>0.117</td> <td>0.204</td> <td>0.310</td> <td>0.331</td> <td>0.022</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3123.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.015</td> <td>0.000</td> <td>0.273</td> <td>0.273</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.206</td> <td>0.308</td> <td>0.609</td> <td>0.644</td> <td>0.035</td></tr><tr><td>Kalman</td> <td>0.139</td> <td>0.193</td> <td>0.542</td> <td>0.571</td> <td>0.029</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3125.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.027</td> <td>0.026</td> <td>0.273</td> <td>0.273</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.184</td> <td>0.325</td> <td>0.622</td> <td>0.644</td> <td>0.022</td></tr><tr><td>Kalman</td> <td>0.128</td> <td>0.204</td> <td>0.549</td> <td>0.571</td> <td>0.022</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3127.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.003</td> <td>0.004</td> <td>0.008</td> <td>0.008</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.004</td> <td>0.006</td> <td>0.009</td> <td>0.010</td> <td>0.001</td></tr><tr><td>Kalman</td> <td>0.003</td> <td>0.004</td> <td>0.006</td> <td>0.007</td> <td>0.001</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3129.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.000</td> <td>0.000</td> <td>0.008</td> <td>0.008</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.003</td> <td>0.004</td> <td>0.009</td> <td>0.010</td> <td>0.001</td></tr><tr><td>Kalman</td> <td>0.003</td> <td>0.005</td> <td>0.010</td> <td>0.011</td> <td>0.001</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3131.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.001</td> <td>0.002</td> <td>0.008</td> <td>0.008</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.003</td> <td>0.005</td> <td>0.009</td> <td>0.010</td> <td>0.001</td></tr><tr><td>Kalman</td> <td>0.003</td> <td>0.004</td> <td>0.010</td> <td>0.011</td> <td>0.001</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3133.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>110.875</td> <td>94.500</td> <td>666.000</td> <td>666.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>134.960</td> <td>189.000</td> <td>241.000</td> <td>284.000</td> <td>43.000</td></tr><tr><td>Kalman</td> <td>129.555</td> <td>177.500</td> <td>227.000</td> <td>268.000</td> <td>41.000</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3135.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>11.344</td> <td>0.000</td> <td>227.000</td> <td>227.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>137.249</td> <td>135.000</td> <td>361.000</td> <td>396.000</td> <td>35.000</td></tr><tr><td>Kalman</td> <td>125.335</td> <td>132.500</td> <td>277.000</td> <td>320.000</td> <td>43.000</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3137.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>30.905</td> <td>91.500</td> <td>666.000</td> <td>666.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>136.104</td> <td>138.000</td> <td>361.000</td> <td>396.000</td> <td>35.000</td></tr><tr><td>Kalman</td> <td>127.445</td> <td>177.500</td> <td>279.000</td> <td>320.000</td> <td>41.000</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3103.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>30.124</td> <td>71.461</td> <td>134.355</td> <td>127.905</td> <td>-6.450</td></tr><tr><td>ODR</td> <td>45.140</td> <td>135.781</td> <td>505.035</td> <td>410.723</td> <td>-94.312</td></tr><tr><td>Kalman</td> <td>31.037</td> <td>81.643</td> <td>329.775</td> <td>233.987</td> <td>-95.788</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3105.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-2.463</td> <td>0.000</td> <td>105.709</td> <td>9.082</td> <td>-96.626</td></tr><tr><td>ODR</td> <td>-12.149</td> <td>-16.903</td> <td>330.309</td> <td>176.073</td> <td>-154.235</td></tr><tr><td>Kalman</td> <td>-11.836</td> <td>0.724</td> <td>235.143</td> <td>133.499</td> <td>-101.644</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3107.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>3.941</td> <td>63.253</td> <td>224.532</td> <td>127.905</td> <td>-96.626</td></tr><tr><td>ODR</td> <td>16.495</td> <td>99.105</td> <td>564.959</td> <td>410.723</td> <td>-154.235</td></tr><tr><td>Kalman</td> <td>9.601</td> <td>81.643</td> <td>335.631</td> <td>233.987</td> <td>-101.644</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3109.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>15.439</td> <td>34.972</td> <td>93.384</td> <td>90.619</td> <td>-2.765</td></tr><tr><td>ODR</td> <td>22.893</td> <td>91.913</td> <td>294.907</td> <td>254.183</td> <td>-40.724</td></tr><tr><td>Kalman</td> <td>13.155</td> <td>73.215</td> <td>187.480</td> <td>164.107</td> <td>-23.373</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3111.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-0.949</td> <td>0.000</td> <td>40.910</td> <td>3.152</td> <td>-37.757</td></tr><tr><td>ODR</td> <td>-2.797</td> <td>1.237</td> <td>165.648</td> <td>107.114</td> <td>-58.534</td></tr><tr><td>Kalman</td> <td>-3.628</td> <td>-1.299</td> <td>93.752</td> <td>53.586</td> <td>-40.166</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3113.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>2.272</td> <td>45.309</td> <td>128.376</td> <td>90.619</td> <td>-37.757</td></tr><tr><td>ODR</td> <td>10.048</td> <td>85.339</td> <td>312.717</td> <td>254.183</td> <td>-58.534</td></tr><tr><td>Kalman</td> <td>4.763</td> <td>73.215</td> <td>204.273</td> <td>164.107</td> <td>-40.166</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3139.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.221</td> <td>0.101</td> <td>1.000</td> <td>1.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.405</td> <td>1.465</td> <td>2.790</td> <td>2.748</td> <td>-0.042</td></tr><tr><td>Kalman</td> <td>0.257</td> <td>1.076</td> <td>1.153</td> <td>1.152</td> <td>-0.000</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3141.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.984</td> <td>1.000</td> <td>1.000</td> <td>1.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.602</td> <td>0.566</td> <td>1.432</td> <td>1.000</td> <td>-0.432</td></tr><tr><td>Kalman</td> <td>0.619</td> <td>0.520</td> <td>1.011</td> <td>1.000</td> <td>-0.011</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3143.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.834</td> <td>0.712</td> <td>1.000</td> <td>1.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.503</td> <td>1.465</td> <td>3.181</td> <td>2.748</td> <td>-0.432</td></tr><tr><td>Kalman</td> <td>0.438</td> <td>1.076</td> <td>1.163</td> <td>1.152</td> <td>-0.011</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div>
+
+<h2><strong>100 Day Regression Window</strong></h2>
+
+<br/><br/><br/><div class="row"><div id="overallDiv"><div id="mainBody"><table cellpadding="3"><tr><th>High Enter Sigma</th><th>High Exit Sigma</th><th>Low Enter Sigma</th><th>Low Exit Sigma</th><th>Stop Loss %</th><th>Look Back (Days)</th><th>R-Squared Threshold</th></tr><tr><td>3.500</td> <td>3.500</td> <td>2.500</td> <td>1.500</td> <td>0.970</td> <td>100.000</td> <td>0.500</td></tr></table><br/><br/></div></div></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3157.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.018</td> <td>0.024</td> <td>0.411</td> <td>0.250</td> <td>-0.161</td></tr><tr><td>ODR</td> <td>0.133</td> <td>0.000</td> <td>1.951</td> <td>1.515</td> <td>-0.436</td></tr><tr><td>Kalman</td> <td>0.059</td> <td>0.042</td> <td>0.841</td> <td>0.565</td> <td>-0.275</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3159.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-0.019</td> <td>0.000</td> <td>0.379</td> <td>0.106</td> <td>-0.273</td></tr><tr><td>ODR</td> <td>-0.080</td> <td>-0.269</td> <td>1.574</td> <td>0.888</td> <td>-0.685</td></tr><tr><td>Kalman</td> <td>-0.076</td> <td>-0.180</td> <td>0.897</td> <td>0.287</td> <td>-0.609</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3161.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-0.011</td> <td>0.000</td> <td>0.523</td> <td>0.250</td> <td>-0.273</td></tr><tr><td>ODR</td> <td>0.027</td> <td>0.000</td> <td>2.201</td> <td>1.515</td> <td>-0.685</td></tr><tr><td>Kalman</td> <td>-0.008</td> <td>0.042</td> <td>1.174</td> <td>0.565</td> <td>-0.609</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>      </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3163.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.069</td> <td>0.035</td> <td>0.231</td> <td>0.231</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.170</td> <td>0.344</td> <td>0.486</td> <td>0.516</td> <td>0.030</td></tr><tr><td>Kalman</td> <td>0.123</td> <td>0.194</td> <td>0.330</td> <td>0.353</td> <td>0.023</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3165.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.030</td> <td>0.000</td> <td>0.444</td> <td>0.444</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.235</td> <td>0.423</td> <td>0.679</td> <td>0.709</td> <td>0.030</td></tr><tr><td>Kalman</td> <td>0.169</td> <td>0.342</td> <td>0.601</td> <td>0.631</td> <td>0.030</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3167.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.039</td> <td>0.000</td> <td>0.444</td> <td>0.444</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.202</td> <td>0.344</td> <td>0.679</td> <td>0.709</td> <td>0.030</td></tr><tr><td>Kalman</td> <td>0.146</td> <td>0.194</td> <td>0.608</td> <td>0.631</td> <td>0.023</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3169.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.002</td> <td>0.001</td> <td>0.008</td> <td>0.008</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.004</td> <td>0.005</td> <td>0.008</td> <td>0.009</td> <td>0.001</td></tr><tr><td>Kalman</td> <td>0.003</td> <td>0.004</td> <td>0.006</td> <td>0.007</td> <td>0.001</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3171.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.001</td> <td>0.000</td> <td>0.009</td> <td>0.009</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.004</td> <td>0.006</td> <td>0.009</td> <td>0.010</td> <td>0.001</td></tr><tr><td>Kalman</td> <td>0.003</td> <td>0.006</td> <td>0.010</td> <td>0.011</td> <td>0.001</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3173.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.001</td> <td>0.000</td> <td>0.009</td> <td>0.009</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.004</td> <td>0.005</td> <td>0.009</td> <td>0.010</td> <td>0.001</td></tr><tr><td>Kalman</td> <td>0.003</td> <td>0.004</td> <td>0.010</td> <td>0.011</td> <td>0.001</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3175.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>69.317</td> <td>14.000</td> <td>210.000</td> <td>210.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>153.312</td> <td>152.500</td> <td>306.000</td> <td>377.000</td> <td>71.000</td></tr><tr><td>Kalman</td> <td>142.478</td> <td>141.500</td> <td>173.000</td> <td>252.000</td> <td>79.000</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3177.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>20.441</td> <td>0.000</td> <td>304.000</td> <td>304.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>152.500</td> <td>216.000</td> <td>301.000</td> <td>377.000</td> <td>76.000</td></tr><tr><td>Kalman</td> <td>140.134</td> <td>153.500</td> <td>206.000</td> <td>264.000</td> <td>58.000</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3179.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>31.215</td> <td>0.000</td> <td>304.000</td> <td>304.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>152.906</td> <td>152.500</td> <td>306.000</td> <td>377.000</td> <td>71.000</td></tr><tr><td>Kalman</td> <td>141.306</td> <td>141.500</td> <td>206.000</td> <td>264.000</td> <td>58.000</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3145.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>7.300</td> <td>8.536</td> <td>127.519</td> <td>83.816</td> <td>-43.704</td></tr><tr><td>ODR</td> <td>41.267</td> <td>11.758</td> <td>384.300</td> <td>279.915</td> <td>-104.386</td></tr><tr><td>Kalman</td> <td>25.907</td> <td>24.542</td> <td>235.551</td> <td>175.629</td> <td>-59.923</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3147.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-5.231</td> <td>0.000</td> <td>98.795</td> <td>20.653</td> <td>-78.142</td></tr><tr><td>ODR</td> <td>-12.427</td> <td>-32.023</td> <td>395.980</td> <td>276.162</td> <td>-119.819</td></tr><tr><td>Kalman</td> <td>-16.074</td> <td>-22.242</td> <td>227.327</td> <td>129.266</td> <td>-98.062</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3149.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-2.468</td> <td>0.000</td> <td>161.958</td> <td>83.816</td> <td>-78.142</td></tr><tr><td>ODR</td> <td>14.420</td> <td>11.758</td> <td>399.733</td> <td>279.915</td> <td>-119.819</td></tr><tr><td>Kalman</td> <td>4.916</td> <td>24.542</td> <td>273.690</td> <td>175.629</td> <td>-98.062</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3151.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>2.873</td> <td>3.845</td> <td>74.635</td> <td>40.310</td> <td>-34.325</td></tr><tr><td>ODR</td> <td>20.883</td> <td>13.014</td> <td>267.951</td> <td>230.289</td> <td>-37.662</td></tr><tr><td>Kalman</td> <td>10.612</td> <td>16.158</td> <td>114.779</td> <td>91.751</td> <td>-23.028</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3153.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-1.785</td> <td>0.000</td> <td>40.547</td> <td>11.163</td> <td>-29.384</td></tr><tr><td>ODR</td> <td>-3.578</td> <td>-16.172</td> <td>198.631</td> <td>152.924</td> <td>-45.707</td></tr><tr><td>Kalman</td> <td>-4.901</td> <td>-10.642</td> <td>100.348</td> <td>65.665</td> <td>-34.683</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3155.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>-0.758</td> <td>0.000</td> <td>74.635</td> <td>40.310</td> <td>-34.325</td></tr><tr><td>ODR</td> <td>8.652</td> <td>13.014</td> <td>275.996</td> <td>230.289</td> <td>-45.707</td></tr><tr><td>Kalman</td> <td>2.856</td> <td>16.158</td> <td>126.433</td> <td>91.751</td> <td>-34.683</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>     </p><br/><br/></div><div class="row">
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3181.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.517</td> <td>0.500</td> <td>1.000</td> <td>1.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.365</td> <td>0.614</td> <td>1.898</td> <td>1.702</td> <td>-0.197</td></tr><tr><td>Kalman</td> <td>0.382</td> <td>0.550</td> <td>1.000</td> <td>1.000</td> <td>0.000</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3183.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.966</td> <td>1.000</td> <td>1.000</td> <td>1.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.594</td> <td>-0.234</td> <td>1.468</td> <td>1.000</td> <td>-0.468</td></tr><tr><td>Kalman</td> <td>0.675</td> <td>1.000</td> <td>1.370</td> <td>1.000</td> <td>-0.370</td></tr></table>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<iframe id="igraph" scrolling="no" style="border:none;"seamless="seamless" src="https://plot.ly/~cjfilabs/3185.embed" height="300" width="100%"></iframe>
+<div id="overallDiv">
+<div id="mainBody">
+<table cellpadding="3"><tr><th></th><th>Avg</th><th>Median</th><th>Range</th><th>Max</th><th>Min</th></tr><tr><td>OLS</td> <td>0.867</td> <td>1.000</td> <td>1.000</td> <td>1.000</td> <td>0.000</td></tr><tr><td>ODR</td> <td>0.480</td> <td>0.614</td> <td>2.170</td> <td>1.702</td> <td>-0.468</td></tr><tr><td>Kalman</td> <td>0.528</td> <td>0.550</td> <td>1.370</td> <td>1.000</td> <td>-0.370</td></tr></table>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row"><br/><br/><p>
+
+    <strong>Results Cont'd</strong><br/>
+        One of the most interesting features of this analysis is the significant performance difference between the leaders and laggers. On every measure the laggers perform worse than the leaders and the total population. In terms of drawdowns, returns, volatility, and risk-adjusted metrics, the laggers significantly underperform the leaders. This lends strong credence to the leader-lagger phenomenon. Existing academic publications related to pairs trading tend to gloss over which component of a cointegrated pair ought to be used to model the other, but our analysis shows that the recognition of the leader in a given pair is nearly (if not more) important than the prediction method itself. Also of note is the tendency for OLS regression to trade significantly less than either other prediction method. At the moment we do not have a meaningful explanation for why this may be occuring. <br/><br/>
+        When it comes to the Sharpe and Sortino metrics, most readers familiar with market statistics will be shocked to see double digit values, both negative and positive. These values can be attributed to the tendency of the strategy to trade rarely for any prediction method. As a result, the overall volatility of the portfolio&#39;s value has been extremely low in the case of most pairs. While this tendency not to trade tends to inflate risk-adjusted metric values, these values are not erroneous, and continue to provide meaningful relative information between the OLS, ODR, and LQE prediction methods. <br/><br/>
+        Across nearly all performance  metrics, LQE is slightly outranked by ODR, while still solidly outperforming OLS on every metric. Although when it comes to volatility metrics, LQE does generate lesser drawdowns, as well as a lesser overall standard deviation. As the time horizon shifts from 100 days to 150 days, we see a notable improvement in LQE’s performance relative to ODR. This suggests that on longer timeframes LQE may be the better approximator. This makes sense, due to the fact that LQE does not give equal significance to old data as it does new, as a result of its online nature. <br/><br/>
+        Overall, both ODR and LQE prove to offer significant gains over OLS methods. Between LQE and ODR, LQE generates lesser volatility, but the penalty in returns is greater than the volatility reduction, as far as the Sharpe and Sortino ratios are concerned.<br/><br/>
+        The source code is located here: <a href=https://github.com/cjfilabs/kalman_thesis>https://github.com/cjfilabs/kalman_thesis</a><br/><br/>
+        <br/>
+
+    <strong>Future Directions</strong><br/>
+        In the future, we believe that the approach would benefit from the inclusion of longer timeframes, as well as intraday and/or volume-weighted average price data. As the regression window expands, the lead which ODR has over LQE tends to diminish. Whether or not this is a characteristic of the timeframe itself, or due to a reduction in the accuracy of regression predictions as additional data points are added has yet to be determined.<br/><br/>
+        Additionally, the localization of data to servers running the backtest simulations would significantly increase the speed of simulation. The time cost of developing the infrastructure for database replication across the distributed systems which were necessary to create this analysis was greater than the time cost associated with the simulation interruption that comes with just-in-time data requests. The development of localized infrastructure and database concurrency management systems would allow for greater ability to perform this analysis across larger sectors, exchanges, and price-data intervals.<br/><br/>
+        Further, methods to more accurately and quickly determine the leader/lagger components of a given pair, as well the degree to which it exists. This paper declared leaders/laggers based upon their performance after the backtesting had been completed. Methods to determine this in real-time, as well as how and if the leader/lagger characteristic of a pair is changing, would also be important.<br/><br/>
+        <br/>
+
+    <strong>Fun Facts</strong><br/>
+        The file size of the output of a single backtest across the financial services sector is roughly equivalent to 60% of a high definition feature-length movie.<br/><br/>
+        The two backtests which are charted above both took approximately 23 minutes each to run on 64-core computers (16x more processors than the computer you&#39;re likely reading this on).<br/><br/>
+        The source code necessary to run the backtester, analysis, and to generate this web page is over 4,000 lines long.
+        <br/><br/><br/>
+
+    <strong>Works Cited</strong><br/>
+        Machine Learning in Pairs Trading Strategies (Chen, Ren & Lu): <a href=http://cs229.stanford.edu/proj2012/ChenRenLu-MachineLearningInPairsTradingStrategies.pdf>http://cs229.stanford.edu/proj2012/ChenRenLu-MachineLearningInPairsTradingStrategies.pdf</a><br/><br/>
+        Implementation of Pairs Trading Strategies (Foshaug): <a href=https://esc.fnwi.uva.nl/thesis/centraal/files/f1362584913.pdf>https://esc.fnwi.uva.nl/thesis/centraal/files/f1362584913.pd</a><br/><br/>
+        Performance Analysis of Pairs Trading Strategy Utilizing High Frequency Data with an Application to KOSPI 100 Equities (Kim, 2011): <a href=http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1913707>http://papers.ssrn.com/sol3/papers.cfm?abstract_id=1913707</a><br/><br/>
+        Dynamic modeling of mean-reverting spreads for statistical arbitrage (Triantafyllopoulos & Montana, 2009): <a href=http://arxiv.org/pdf/0808.1710.pdf>http://arxiv.org/pdf/0808.1710.pdf</a><br/><br/>
+        Pairs Trading (Elliiot, Hoek & Malcom, 2005): <a href=http://stat.wharton.upenn.edu/~steele/Courses/434/434Context/PairsTrading/PairsTradingQFin05.pdf>http://stat.wharton.upenn.edu/~steele/Courses/434/434Context/PairsTrading/PairsTradingQFin05.pdf</a><br/><br/>
+        The Stochastic Behavior of Commodity Prices: Implications for Valuation and Hedging (Schwartz, 1997): <a href=http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1997.tb02721.x/full>http://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.1997.tb02721.x/full</a><br/><br/>
+        Calculating the optimal hedge ratio: constant, time varying and the Kalman Filter approach (Hatemi & Roca, 2006)<br/><br/>
+        <br/>
+
+</p><br/><br/></div></div>
+
+</body></html>
